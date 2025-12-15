@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student & Premium Calculator</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for a modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom styles for the "liquidy" and animated UI */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Glassmorphism effect for the main card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-5px);
+        }
+
+        /* Custom styling for the input field */
+        .custom-input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Placeholder text color */
+        .custom-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Remove number input spinners */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Gradient and animation for the button */
+        .animated-button {
+            background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 51%, #6a11cb 100%);
+            background-size: 200% auto;
+            transition: all 0.3s ease-out;
+            box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.3);
+        }
+
+        .animated-button:hover {
+            background-position: right center;
+            transform: scale(1.05);
+        }
+        
+        .animated-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Animation for results display */
+        .results-container {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in, transform 0.7s ease-in-out;
+            transform: translateY(20px);
+        }
+
+        .results-container.show {
+            max-height: 500px; /* A large enough value */
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Animation for error shake */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <div class="glass-card w-11/12 max-w-md p-6 sm:p-8 rounded-2xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Student Calculator</h1>
+            <p class="text-sm text-gray-200 mt-2">Calculate student counts and total premium with GST.</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="space-y-4">
+            <div>
+                <label for="amountInput" class="text-sm font-medium text-gray-100">Enter Amount</label>
+                <input 
+                    type="number" 
+                    id="amountInput" 
+                    class="custom-input w-full p-3 mt-1 rounded-lg text-lg text-white"
+                    placeholder="e.g., 1500"
+                >
+            </div>
+            <button id="calculateBtn" class="animated-button w-full text-white font-semibold py-3 px-4 rounded-lg text-lg">
+                Calculate
+            </button>
+        </div>
+        
+        <!-- Results Section (hidden by default) -->
+        <div id="results" class="results-container mt-8">
+            <div class="border-t border-gray-200/20 pt-6 space-y-4">
+                <div class="flex justify-between items-center text-lg">
+                    <span class="font-medium text-gray-200">Total Students:</span>
+                    <span id="studentResult" class="font-bold text-2xl text-cyan-300">0</span>
+                </div>
+                <div class="flex justify-between items-center text-lg">
+                    <span class="font-medium text-gray-200">Total Premium (incl. GST):</span>
+                    <span id="premiumResult" class="font-bold text-2xl text-green-300">₹0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const amountInput = document.getElementById('amountInput');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultsContainer = document.getElementById('results');
+        const studentResult = document.getElementById('studentResult');
+        const premiumResult = document.getElementById('premiumResult');
+
+        /**
+         * Custom rounding logic:
+         * - If the decimal part is > 0.5, round up.
+         * - If the decimal part is <= 0.5, round down.
+         * @param {number} num The number to round.
+         * @returns {number} The rounded number.
+         */
+        function customRound(num) {
+            const floor = Math.floor(num);
+            const decimal = num - floor;
+            return decimal > 0.5 ? Math.ceil(num) : floor;
+        }
+        
+        /**
+         * Main calculation function
+         */
+        function performCalculation() {
+            // Remove error shake animation if present
+            amountInput.classList.remove('shake');
+
+            const amount = parseFloat(amountInput.value);
+
+            // Input validation
+            if (isNaN(amount) || amount <= 0) {
+                // Add a shake animation for invalid input
+                amountInput.classList.add('shake');
+                // Hide results if they were previously shown
+                resultsContainer.classList.remove('show');
+                return;
+            }
+
+            // 1. Calculate total students
+            const rawStudents = amount / 73.16;
+            const totalStudents = customRound(rawStudents);
+
+            // 2. Calculate premium
+            const basePremium = totalStudents * 62;
+            const gst = basePremium * 0.18; // 18% GST
+            const totalPremiumRaw = basePremium + gst;
+            const totalPremium = customRound(totalPremiumRaw);
+
+            // 3. Display results with a smooth animation
+            studentResult.textContent = totalStudents;
+            premiumResult.textContent = `₹${totalPremium.toLocaleString('en-IN')}`;
+
+            resultsContainer.classList.add('show');
+        }
+
+        // Event Listeners
+        calculateBtn.addEventListener('click', performCalculation);
+        
+        // Allow calculation by pressing 'Enter'
+        amountInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                performCalculation();
+            }
+        });
+    </script>
+
+</body>
+</html>

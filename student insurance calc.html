@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Fee Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .result-card {
+            transition: all 0.3s ease-in-out;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        .result-card.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md mx-auto p-6 md:p-8 bg-white rounded-2xl shadow-lg">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Fee Calculator</h1>
+            <p class="text-gray-500 mt-2">Calculate the total fee including GST.</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="space-y-4">
+            <div>
+                <label for="studentCount" class="block text-sm font-medium text-gray-700 mb-1">Number of Students</label>
+                <input type="number" id="studentCount" placeholder="e.g., 10" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-shadow duration-300 outline-none">
+            </div>
+            <button id="calculateBtn" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                Calculate Total Fee
+            </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="my-6 border-t border-gray-200"></div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Calculation Details</h2>
+            <div class="space-y-3">
+                <!-- Base Amount -->
+                <div id="baseAmountCard" class="result-card flex justify-between items-center p-4 bg-blue-50 rounded-lg">
+                    <span class="text-gray-600">Base Amount</span>
+                    <span id="baseAmount" class="text-xl font-bold text-blue-800"></span>
+                </div>
+                <!-- GST Amount -->
+                <div id="gstAmountCard" class="result-card flex justify-between items-center p-4 bg-green-50 rounded-lg">
+                    <span class="text-gray-600">GST (18%)</span>
+                    <span id="gstAmount" class="text-xl font-bold text-green-800"></span>
+                </div>
+                <!-- Total Amount -->
+                <div id="totalAmountCard" class="result-card flex justify-between items-center p-4 bg-indigo-50 rounded-lg mt-4 border-t-2 border-indigo-200">
+                    <span class="text-gray-800 font-bold">Total Payable Amount</span>
+                    <span id="totalAmount" class="text-2xl font-extrabold text-indigo-800"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="text-red-500 text-center mt-4 font-medium hidden"></div>
+
+    </div>
+
+    <script>
+        const calculateBtn = document.getElementById('calculateBtn');
+        const studentCountInput = document.getElementById('studentCount');
+        const resultsDiv = document.getElementById('results');
+        const errorDiv = document.getElementById('error');
+        
+        const baseAmountEl = document.getElementById('baseAmount');
+        const gstAmountEl = document.getElementById('gstAmount');
+        const totalAmountEl = document.getElementById('totalAmount');
+        
+        const baseAmountCard = document.getElementById('baseAmountCard');
+        const gstAmountCard = document.getElementById('gstAmountCard');
+        const totalAmountCard = document.getElementById('totalAmountCard');
+
+        const calculateFee = () => {
+            // Clear previous results and errors
+            errorDiv.classList.add('hidden');
+            resultsDiv.classList.add('hidden');
+            baseAmountCard.classList.remove('show');
+            gstAmountCard.classList.remove('show');
+            totalAmountCard.classList.remove('show');
+            
+            const studentCount = parseInt(studentCountInput.value);
+
+            // Input validation
+            if (isNaN(studentCount) || studentCount <= 0) {
+                errorDiv.textContent = 'Please enter a valid number of students.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Calculations
+            const baseCost = studentCount * 62;
+            const gst = baseCost * 0.18;
+            const totalCost = baseCost + gst;
+
+            // Display results
+            baseAmountEl.textContent = `₹ ${baseCost.toFixed(2)}`;
+            gstAmountEl.textContent = `₹ ${gst.toFixed(2)}`;
+            totalAmountEl.textContent = `₹ ${totalCost.toFixed(2)}`;
+
+            resultsDiv.classList.remove('hidden');
+            
+            // Staggered animation for result cards
+            setTimeout(() => baseAmountCard.classList.add('show'), 100);
+            setTimeout(() => gstAmountCard.classList.add('show'), 200);
+            setTimeout(() => totalAmountCard.classList.add('show'), 300);
+        };
+
+        calculateBtn.addEventListener('click', calculateFee);
+
+        // Allow calculation by pressing Enter key
+        studentCountInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                calculateFee();
+            }
+        });
+    </script>
+
+</body>
+</html>
