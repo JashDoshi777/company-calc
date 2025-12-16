@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>IRIBL calculators</title>
+  <title>IRIBL TOOLS</title>
 
   <style>
     body {
@@ -22,6 +22,7 @@
       box-sizing: border-box;
       box-shadow: 4px 0 20px rgba(0,0,0,0.2);
       animation: slideIn 0.6s ease;
+      overflow-x: hidden; /* ✅ FIX: prevents items from spilling outside */
     }
 
     @keyframes slideIn {
@@ -78,6 +79,7 @@
       transition: all 0.35s ease;
       position: relative;
       overflow: hidden;
+      box-sizing: border-box;
     }
 
     .sidebar button::before {
@@ -107,6 +109,46 @@
     }
 
     .sidebar button.active::before {
+      transform: scaleY(1);
+    }
+
+    /* Sidebar external link */
+    .sidebar a.sidebar-link {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-size: 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      text-align: left;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      white-space: nowrap; /* keeps text inside */
+    }
+
+    .sidebar a.sidebar-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: #22c55e;
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar a.sidebar-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateX(6px);
+    }
+
+    .sidebar a.sidebar-link:hover::before {
       transform: scaleY(1);
     }
 
@@ -147,12 +189,22 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <img src="logo.png" alt="Logo">
-    <h2>IRIBL calculators</h2>
+    <h2>IRIBL TOOLS</h2>
 
     <button class="active" onclick="showCalc('calc1', this)">Fire Calculator</button>
     <button onclick="showCalc('calc2', this)">Insurance Premium Calculator</button>
     <button onclick="showCalc('calc3', this)">Student Insurance Calculator</button>
     <button onclick="showCalc('calc4', this)">Student Calculator</button>
+
+    <hr style="border:none;height:1px;background:rgba(255,255,255,0.15);margin:20px 0;">
+
+    <a
+      href="https://excel2pdf-iribl.onrender.com/"
+      target="_blank"
+      class="sidebar-link"
+    >
+      🔗 QCR report generator
+    </a>
   </div>
 
   <!-- Main Content -->
