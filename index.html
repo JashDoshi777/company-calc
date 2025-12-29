@@ -22,18 +22,12 @@
       box-sizing: border-box;
       box-shadow: 4px 0 20px rgba(0,0,0,0.2);
       animation: slideIn 0.6s ease;
-      overflow-x: hidden; /* ✅ FIX: prevents items from spilling outside */
+      overflow-x: hidden;
     }
 
     @keyframes slideIn {
-      from {
-        transform: translateX(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
     /* Logo */
@@ -46,14 +40,8 @@
     }
 
     @keyframes fadeDown {
-      from {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .sidebar h2 {
@@ -79,7 +67,6 @@
       transition: all 0.35s ease;
       position: relative;
       overflow: hidden;
-      box-sizing: border-box;
     }
 
     .sidebar button::before {
@@ -99,7 +86,8 @@
       transform: translateX(6px);
     }
 
-    .sidebar button:hover::before {
+    .sidebar button:hover::before,
+    .sidebar button.active::before {
       transform: scaleY(1);
     }
 
@@ -108,14 +96,9 @@
       box-shadow: inset 0 0 0 1px rgba(56,189,248,0.4);
     }
 
-    .sidebar button.active::before {
-      transform: scaleY(1);
-    }
-
-    /* Sidebar external link */
+    /* Sidebar external links */
     .sidebar a.sidebar-link {
       display: block;
-      width: 100%;
       padding: 14px 16px;
       margin-bottom: 12px;
       background: rgba(255, 255, 255, 0.05);
@@ -123,12 +106,9 @@
       font-size: 15px;
       border-radius: 10px;
       text-decoration: none;
-      text-align: left;
       transition: all 0.35s ease;
       position: relative;
       overflow: hidden;
-      box-sizing: border-box;
-      white-space: nowrap; /* keeps text inside */
     }
 
     .sidebar a.sidebar-link::before {
@@ -152,6 +132,11 @@
       transform: scaleY(1);
     }
 
+    /* Second link accent */
+    .sidebar a.alt-link::before {
+      background: #f59e0b;
+    }
+
     /* Content */
     .content {
       flex: 1;
@@ -172,14 +157,8 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
@@ -203,7 +182,15 @@
       target="_blank"
       class="sidebar-link"
     >
-      🔗 QCR report generator
+      🔗 QCR Report Generator
+    </a>
+
+    <a
+      href="https://jashdoshi77-visionextract-crm.hf.space/"
+      target="_blank"
+      class="sidebar-link alt-link"
+    >
+      📊 VisionExtractAI
     </a>
   </div>
 
@@ -217,13 +204,13 @@
 
   <script>
     function showCalc(id, btn) {
-      document.querySelectorAll("iframe").forEach(frame => {
-        frame.classList.remove("active");
-      });
+      document.querySelectorAll("iframe").forEach(frame =>
+        frame.classList.remove("active")
+      );
 
-      document.querySelectorAll(".sidebar button").forEach(b => {
-        b.classList.remove("active");
-      });
+      document.querySelectorAll(".sidebar button").forEach(b =>
+        b.classList.remove("active")
+      );
 
       document.getElementById(id).classList.add("active");
       btn.classList.add("active");
