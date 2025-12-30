@@ -1,230 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Dashboard</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <meta charset="UTF-8">
+  <title>IRIBL TOOLS</title>
 
-    <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111827; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
-        body { background-color: #030712; color: white; }
-    </style>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f8fafc;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, #0f172a, #1e293b);
+      color: white;
+      padding: 24px 20px;
+      box-sizing: border-box;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+      overflow-y: auto;
+    }
+
+    /* Logo */
+    .sidebar img {
+      width: 160px;
+      display: block;
+      margin: 0 auto 14px;
+      filter: brightness(0) invert(1);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 30px;
+      letter-spacing: 0.6px;
+      opacity: 0.95;
+    }
+
+    /* Sidebar buttons */
+    .sidebar button {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: none;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      border-radius: 10px;
+      text-align: left;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .sidebar button::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: #38bdf8;
+      transform: scaleY(0);
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar button:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateX(6px);
+    }
+
+    .sidebar button:hover::before,
+    .sidebar button.active::before {
+      transform: scaleY(1);
+    }
+
+    .sidebar button.active {
+      background: rgba(56, 189, 248, 0.18);
+      box-shadow: inset 0 0 0 1px rgba(56,189,248,0.45);
+    }
+
+    /* Section label */
+    .sidebar .section-title {
+      margin: 22px 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.65;
+    }
+
+    /* Sidebar external links */
+    .sidebar a.sidebar-link {
+      display: block;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: white;
+      font-size: 15px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .sidebar a.sidebar-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: #22c55e;
+      transform: scaleY(0);
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar a.sidebar-link:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateX(6px);
+    }
+
+    .sidebar a.sidebar-link:hover::before {
+      transform: scaleY(1);
+    }
+
+    /* Individual accents */
+    .qcr::before { background: #22c55e; }
+    .vision::before { background: #f59e0b; }
+    .iriblai::before { background: #8b5cf6; }
+
+    /* Content */
+    .content {
+      flex: 1;
+      height: 100vh;
+      background: #f8fafc;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+    }
+
+    iframe.active {
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
 
-    <div id="root"></div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <img src="logo.png" alt="IRIBL Logo">
+    <h2>IRIBL TOOLS</h2>
 
-    <script type="text/babel">
-        // Access libraries from the global window object
-        const { useState, useEffect } = React;
-        const { createRoot } = ReactDOM;
-        const { motion, AnimatePresence } = window.Motion;
+    <button class="active" onclick="showCalc('calc1', this)">Fire Calculator</button>
+    <button onclick="showCalc('calc2', this)">Insurance Premium Calculator</button>
+    <button onclick="showCalc('calc3', this)">Student Insurance Calculator</button>
+    <button onclick="showCalc('calc4', this)">Student Calculator</button>
 
-        // --- COMPONENTS ---
+    <div class="section-title">External Tools</div>
 
-        // 1. Welcome Screen
-        const WelcomeScreen = ({ onEnter }) => {
-            return (
-                <motion.div
-                    initial={{ opacity: 1 }}
-                    exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
-                    className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-950 overflow-hidden"
-                >
-                    {/* Background Gradients */}
-                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                        <motion.div 
-                            animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                            className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px]" 
-                        />
-                        <motion.div 
-                            animate={{ scale: [1, 1.1, 1], rotate: [0, -45, 0] }}
-                            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                            className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px]" 
-                        />
-                    </div>
+    <a
+      href="https://excel2pdf-iribl.onrender.com/"
+      target="_blank"
+      class="sidebar-link qcr"
+    >
+      🔗 QCR Report Generator
+    </a>
 
-                    <div className="relative z-10 text-center px-4">
-                        <motion.div
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                        >
-                            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-2">
-                                NEXUS
-                            </h1>
-                            <div className="h-1 w-24 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full mb-6"></div>
-                        </motion.div>
+    <a
+      href="https://jashdoshi77-visionextract-crm.hf.space/"
+      target="_blank"
+      class="sidebar-link vision"
+    >
+      📊 VisionExtract AI
+    </a>
 
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4, duration: 0.8 }}
-                            className="text-gray-400 text-lg md:text-xl font-light tracking-wide mb-12 max-w-lg mx-auto"
-                        >
-                            Where data meets clarity.
-                        </motion.p>
+    <a
+      href="https://jashdoshi77-notebooklm-fast.hf.space/"
+      target="_blank"
+      class="sidebar-link iriblai"
+    >
+      🤖 Iribl AI
+    </a>
+  </div>
 
-                        <motion.button
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            transition={{ delay: 0.6, duration: 0.3 }}
-                            onClick={onEnter}
-                            className="group relative px-8 py-4 bg-white text-black rounded-full font-semibold overflow-hidden transition-all cursor-pointer"
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                Enter Dashboard <i data-lucide="arrow-right" className="w-4 h-4"></i>
-                            </span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-200 to-blue-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </motion.button>
-                    </div>
-                </motion.div>
-            );
-        };
+  <!-- Main Content -->
+  <div class="content">
+    <iframe id="calc1" src="FIRE CALCULATOR.html" class="active"></iframe>
+    <iframe id="calc2" src="insurance premium calculator.html"></iframe>
+    <iframe id="calc3" src="student insurance calc.html"></iframe>
+    <iframe id="calc4" src="stu_calc.html"></iframe>
+  </div>
 
-        // 2. Sidebar Component
-        const Sidebar = () => {
-            const menuItems = [
-                { icon: "layout-dashboard", label: "Overview", active: true },
-                { icon: "bar-chart-3", label: "Analytics", active: false },
-                { icon: "users", label: "Customers", active: false },
-                { icon: "settings", label: "Settings", active: false },
-            ];
+  <script>
+    function showCalc(id, btn) {
+      document.querySelectorAll("iframe").forEach(frame =>
+        frame.classList.remove("active")
+      );
 
-            return (
-                <div className="w-64 h-full bg-gray-900 border-r border-gray-800 flex flex-col shrink-0">
-                    <div className="p-6 flex items-center gap-2 border-b border-gray-800">
-                        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg"></div>
-                        <span className="font-bold text-xl tracking-tight text-white">NEXUS</span>
-                    </div>
-                    
-                    <nav className="flex-1 p-4 space-y-2">
-                        {menuItems.map((item, idx) => (
-                            <button 
-                                key={idx}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                                    item.active 
-                                    ? 'bg-purple-600/10 text-purple-400 border border-purple-600/20' 
-                                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                                }`}
-                            >
-                                <i data-lucide={item.icon} className="w-5 h-5"></i>
-                                <span className="text-sm font-medium">{item.label}</span>
-                            </button>
-                        ))}
-                    </nav>
+      document.querySelectorAll(".sidebar button").forEach(b =>
+        b.classList.remove("active")
+      );
 
-                    <div className="p-4 border-t border-gray-800">
-                        <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-800/50">
-                            <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs">JD</div>
-                            <div className="flex-1">
-                                <p className="text-sm font-medium text-white">Jash Doshi</p>
-                                <p className="text-xs text-gray-500">Admin</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
+      document.getElementById(id).classList.add("active");
+      btn.classList.add("active");
+    }
+  </script>
 
-        // 3. Dashboard Content
-        const Dashboard = () => {
-            return (
-                <div className="flex-1 h-full overflow-y-auto bg-gray-950 p-8">
-                    <header className="flex justify-between items-center mb-8">
-                        <div>
-                            <h2 className="text-3xl font-bold text-white">Overview</h2>
-                            <p className="text-gray-400 mt-1">Welcome back to your command center.</p>
-                        </div>
-                        <button className="p-2 rounded-full bg-gray-800 text-gray-400 hover:text-white transition-colors">
-                            <i data-lucide="bell" className="w-5 h-5"></i>
-                        </button>
-                    </header>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        {[
-                            { label: "Total Revenue", value: "$45,231.89", trend: "+20.1%", color: "text-green-400" },
-                            { label: "Active Users", value: "+2,350", trend: "+180.1%", color: "text-blue-400" },
-                            { label: "Sales", value: "+12,234", trend: "+19%", color: "text-purple-400" }
-                        ].map((stat, i) => (
-                            <motion.div 
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 + (i * 0.1) }}
-                                className="p-6 rounded-2xl bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors"
-                            >
-                                <p className="text-sm font-medium text-gray-400">{stat.label}</p>
-                                <div className="mt-2 flex items-baseline gap-2">
-                                    <span className="text-3xl font-bold text-white">{stat.value}</span>
-                                    <span className={`text-sm ${stat.color}`}>{stat.trend}</span>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {/* Content Placeholder */}
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="rounded-2xl bg-gray-900 border border-gray-800 h-96 flex items-center justify-center text-gray-500"
-                    >
-                        Chart Visualization Area
-                    </motion.div>
-                </div>
-            );
-        };
-
-        // 4. Main App
-        const App = () => {
-            const [showWelcome, setShowWelcome] = useState(true);
-
-            // Icon Refresh Effect
-            useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
-            }, [showWelcome]); // Re-run when switching views
-
-            return (
-                <div className="h-screen w-full bg-gray-950 text-white overflow-hidden font-sans antialiased flex flex-col">
-                    <AnimatePresence mode="wait">
-                        {showWelcome && (
-                            <WelcomeScreen key="welcome" onEnter={() => setShowWelcome(false)} />
-                        )}
-                    </AnimatePresence>
-                    
-                    {!showWelcome && (
-                        <div className="flex w-full h-full animate-fade-in">
-                            <Sidebar />
-                            <Dashboard />
-                        </div>
-                    )}
-                </div>
-            );
-        };
-
-        const root = createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
 </body>
 </html>
