@@ -27,12 +27,24 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+
+      /* START HIDDEN */
+      opacity: 0;
+      transform: scale(1.06);
+      animation: welcomeIn 1s ease forwards;
+    }
+
+    @keyframes welcomeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .welcome.hidden {
       opacity: 0;
-      transform: scale(1.05);
+      transform: scale(1.06);
+      transition: opacity 0.6s ease, transform 0.6s ease;
       pointer-events: none;
     }
 
@@ -45,6 +57,12 @@
       width: 280px;
       margin-bottom: 30px;
       filter: brightness(0) invert(1);
+      animation: logoFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     .welcome-card h1 {
