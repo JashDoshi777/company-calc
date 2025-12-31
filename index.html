@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>IRIBL TOOLS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
@@ -11,9 +12,33 @@
       height: 100vh;
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f8fafc;
+      overflow: hidden;
     }
 
-    /* Sidebar */
+    /* ===== MOBILE HEADER ===== */
+    .mobile-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, #0f172a, #1e293b);
+      color: white;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      z-index: 1001;
+    }
+
+    .mobile-header img {
+      width: 120px;
+      filter: brightness(0) invert(1);
+    }
+
+    .menu-btn {
+      font-size: 26px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* ===== SIDEBAR ===== */
     .sidebar {
       width: 280px;
       background: linear-gradient(180deg, #0f172a, #1e293b);
@@ -22,9 +47,10 @@
       box-sizing: border-box;
       box-shadow: 4px 0 20px rgba(0,0,0,0.2);
       overflow-y: auto;
+      transition: transform 0.35s ease;
+      z-index: 1000;
     }
 
-    /* Logo */
     .sidebar img {
       width: 160px;
       display: block;
@@ -83,7 +109,6 @@
       box-shadow: inset 0 0 0 1px rgba(56,189,248,0.45);
     }
 
-    /* Section label */
     .sidebar .section-title {
       margin: 22px 0 12px;
       font-size: 13px;
@@ -92,7 +117,6 @@
       opacity: 0.65;
     }
 
-    /* Sidebar external links */
     .sidebar a.sidebar-link {
       display: block;
       padding: 14px 16px;
@@ -127,16 +151,15 @@
       transform: scaleY(1);
     }
 
-    /* Individual accents */
     .qcr::before { background: #22c55e; }
     .vision::before { background: #f59e0b; }
     .iriblai::before { background: #8b5cf6; }
 
-    /* Content */
+    /* ===== CONTENT ===== */
     .content {
       flex: 1;
-      height: 100vh;
       background: #f8fafc;
+      height: 100%;
     }
 
     iframe {
@@ -149,13 +172,57 @@
     iframe.active {
       display: block;
     }
+
+    /* ===== TABLET ===== */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .mobile-header {
+        display: flex;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .content {
+        height: calc(100vh - 60px);
+      }
+
+      iframe {
+        height: calc(100vh - 60px);
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
+  <!-- MOBILE HEADER -->
+  <div class="mobile-header">
+    <img src="logo.png" alt="IRIBL Logo">
+    <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
     <img src="logo.png" alt="IRIBL Logo">
     <h2>IRIBL TOOLS</h2>
 
@@ -166,32 +233,20 @@
 
     <div class="section-title">External Tools</div>
 
-    <a
-      href="https://excel2pdf-iribl.onrender.com/"
-      target="_blank"
-      class="sidebar-link qcr"
-    >
+    <a href="https://excel2pdf-iribl.onrender.com/" target="_blank" class="sidebar-link qcr">
       🔗 QCR Report Generator
     </a>
 
-    <a
-      href="https://jashdoshi77-visionextract-crm.hf.space/"
-      target="_blank"
-      class="sidebar-link vision"
-    >
+    <a href="https://jashdoshi77-visionextract-crm.hf.space/" target="_blank" class="sidebar-link vision">
       📊 VisionExtract AI
     </a>
 
-    <a
-      href="https://jashdoshi77-notebooklm-fast.hf.space/"
-      target="_blank"
-      class="sidebar-link iriblai"
-    >
+    <a href="https://jashdoshi77-notebooklm-fast.hf.space/" target="_blank" class="sidebar-link iriblai">
       🤖 Iribl AI
     </a>
   </div>
 
-  <!-- Main Content -->
+  <!-- CONTENT -->
   <div class="content">
     <iframe id="calc1" src="FIRE CALCULATOR.html" class="active"></iframe>
     <iframe id="calc2" src="insurance premium calculator.html"></iframe>
@@ -201,16 +256,17 @@
 
   <script>
     function showCalc(id, btn) {
-      document.querySelectorAll("iframe").forEach(frame =>
-        frame.classList.remove("active")
-      );
-
-      document.querySelectorAll(".sidebar button").forEach(b =>
-        b.classList.remove("active")
-      );
+      document.querySelectorAll("iframe").forEach(f => f.classList.remove("active"));
+      document.querySelectorAll(".sidebar button").forEach(b => b.classList.remove("active"));
 
       document.getElementById(id).classList.add("active");
       btn.classList.add("active");
+
+      document.getElementById("sidebar").classList.remove("open");
+    }
+
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
     }
   </script>
 
