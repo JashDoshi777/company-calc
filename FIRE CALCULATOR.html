@@ -8,43 +8,73 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css">
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <style>
+        :root {
+            --bg-primary: #f0f4f8;
+            --bg-card: #ffffff;
+            --text-primary: #334155;
+            --text-secondary: #64748b;
+            --border-color: #cbd5e1;
+            --input-bg: #f8fafc;
+            --accent: #6366f1;
+            --result-bg: #e0e7ff;
+            --result-border: #a5b4fc;
+            --result-text: #4338ca;
+            --info-bg: #eff6ff;
+            --info-border: #bfdbfe;
+        }
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+            --result-bg: #312e81;
+            --result-border: #4f46e5;
+            --result-text: #c7d2fe;
+            --info-bg: #1e3a5f;
+            --info-border: #3b82f6;
+        }
         body {
             font-family: "Inter", sans-serif;
-            background-color: #f0f4f8;
+            background-color: var(--bg-primary);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            transition: background-color 0.3s ease;
         }
         .calculator-container {
-            background-color: #fff;
+            background-color: var(--bg-card);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 600px;
+            transition: background-color 0.3s ease;
         }
         .form-group { margin-bottom: 20px; }
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #334155;
+            color: var(--text-primary);
         }
         select, input[type="number"] {
             width: 100%;
             padding: 12px;
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 1rem;
-            color: #334155;
-            background-color: #f8fafc;
+            color: var(--text-primary);
+            background-color: var(--input-bg);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         .btn-calculate {
             width: 100%;
             padding: 14px;
-            background-color: #6366f1;
+            background-color: var(--accent);
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -55,19 +85,20 @@
         }
         .btn-calculate:hover { background-color: #4f46e5; }
         .result-box, .info-display {
-            background-color: #e0e7ff;
+            background-color: var(--result-bg);
             padding: 15px;
             border-radius: 8px;
             margin-top: 25px;
-            border: 1px solid #a5b4fc;
+            border: 1px solid var(--result-border);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
-        .info-display { background-color: #eff6ff; border: 1px solid #bfdbfe; }
+        .info-display { background-color: var(--info-bg); border: 1px solid var(--info-border); }
         .result-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
             font-size: 1rem;
-            color: #4338ca;
+            color: var(--result-text);
         }
         /* Adjusted width for labels and values in result items for better display of rates */
         .result-item span:first-child {
@@ -95,6 +126,9 @@
         .checkbox-group label {
             margin-bottom: 0; /* Adjust label margin for checkbox */
         }
+        /* Dark mode text colors */
+        h1, .text-gray-800 { color: var(--text-primary) !important; }
+        .info-item span { color: var(--text-secondary); }
     </style>
 </head>
 <body>
@@ -1873,6 +1907,15 @@
                 document.getElementById('infoDisplay').classList.add('hidden');
                 document.getElementById('resultDisplay').classList.add('hidden');
             }
+            
+            // Send to parent for history
+            if (window.parent !== window && selectedStfiData) {
+                window.parent.postMessage({
+                    type: 'calculation',
+                    calculator: 'Fire Calculator',
+                    result: `${selectedStfiData['Occupancy Type']} | Sum: ₹${parseFloat(document.getElementById('sumInsured').value).toLocaleString('en-IN')} → Premium: ${document.getElementById('finalPremiumGST').textContent}`
+                }, '*');
+            }
         });
 
         // Custom message box function (replaces alert)
@@ -1910,6 +1953,17 @@
             messageBox.querySelector('button').addEventListener('click', () => {
                 document.body.removeChild(messageBox);
             });
+        }
+    });
+    
+    // Listen for theme changes from parent
+    window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'theme') {
+            if (e.data.theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
         }
     });
 </script>

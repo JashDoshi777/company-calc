@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +8,101 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --accent: #3b82f6;
+            --result-blue-bg: #eff6ff;
+            --result-green-bg: #f0fdf4;
+            --result-indigo-bg: #eef2ff;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+            --result-blue-bg: #1e3a5f;
+            --result-green-bg: #14532d;
+            --result-indigo-bg: #312e81;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            transition: background 0.3s ease;
         }
+
         .result-card {
             transition: all 0.3s ease-in-out;
             transform: translateY(20px);
             opacity: 0;
         }
+
         .result-card.show {
             transform: translateY(0);
             opacity: 1;
         }
+
+        /* Dark mode overrides */
+        .bg-white {
+            background: var(--bg-card) !important;
+            transition: background 0.3s ease;
+        }
+
+        .bg-gray-100 {
+            background: var(--bg-primary) !important;
+        }
+
+        .bg-gray-50 {
+            background: var(--input-bg) !important;
+        }
+
+        .text-gray-800,
+        .text-gray-700 {
+            color: var(--text-primary) !important;
+        }
+
+        .text-gray-500,
+        .text-gray-600 {
+            color: var(--text-secondary) !important;
+        }
+
+        .border-gray-200,
+        .border-gray-300 {
+            border-color: var(--border-color) !important;
+        }
+
+        .bg-blue-50 {
+            background: var(--result-blue-bg) !important;
+        }
+
+        .bg-green-50 {
+            background: var(--result-green-bg) !important;
+        }
+
+        .bg-indigo-50 {
+            background: var(--result-indigo-bg) !important;
+        }
+
+        [data-theme="dark"] .text-blue-800,
+        [data-theme="dark"] .text-green-800,
+        [data-theme="dark"] .text-indigo-800 {
+            color: #f1f5f9 !important;
+        }
     </style>
 </head>
+
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-md mx-auto p-6 md:p-8 bg-white rounded-2xl shadow-lg">
-        
+
         <!-- Header Section -->
         <div class="text-center mb-6">
             <h1 class="text-3xl font-bold text-gray-800">Fee Calculator</h1>
@@ -34,10 +112,13 @@
         <!-- Input Section -->
         <div class="space-y-4">
             <div>
-                <label for="studentCount" class="block text-sm font-medium text-gray-700 mb-1">Number of Students</label>
-                <input type="number" id="studentCount" placeholder="e.g., 10" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-shadow duration-300 outline-none">
+                <label for="studentCount" class="block text-sm font-medium text-gray-700 mb-1">Number of
+                    Students</label>
+                <input type="number" id="studentCount" placeholder="e.g., 10"
+                    class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-shadow duration-300 outline-none">
             </div>
-            <button id="calculateBtn" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+            <button id="calculateBtn"
+                class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-indigo-300">
                 Calculate Total Fee
             </button>
         </div>
@@ -50,17 +131,20 @@
             <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Calculation Details</h2>
             <div class="space-y-3">
                 <!-- Base Amount -->
-                <div id="baseAmountCard" class="result-card flex justify-between items-center p-4 bg-blue-50 rounded-lg">
+                <div id="baseAmountCard"
+                    class="result-card flex justify-between items-center p-4 bg-blue-50 rounded-lg">
                     <span class="text-gray-600">Base Amount</span>
                     <span id="baseAmount" class="text-xl font-bold text-blue-800"></span>
                 </div>
                 <!-- GST Amount -->
-                <div id="gstAmountCard" class="result-card flex justify-between items-center p-4 bg-green-50 rounded-lg">
+                <div id="gstAmountCard"
+                    class="result-card flex justify-between items-center p-4 bg-green-50 rounded-lg">
                     <span class="text-gray-600">GST (18%)</span>
                     <span id="gstAmount" class="text-xl font-bold text-green-800"></span>
                 </div>
                 <!-- Total Amount -->
-                <div id="totalAmountCard" class="result-card flex justify-between items-center p-4 bg-indigo-50 rounded-lg mt-4 border-t-2 border-indigo-200">
+                <div id="totalAmountCard"
+                    class="result-card flex justify-between items-center p-4 bg-indigo-50 rounded-lg mt-4 border-t-2 border-indigo-200">
                     <span class="text-gray-800 font-bold">Total Payable Amount</span>
                     <span id="totalAmount" class="text-2xl font-extrabold text-indigo-800"></span>
                 </div>
@@ -77,11 +161,11 @@
         const studentCountInput = document.getElementById('studentCount');
         const resultsDiv = document.getElementById('results');
         const errorDiv = document.getElementById('error');
-        
+
         const baseAmountEl = document.getElementById('baseAmount');
         const gstAmountEl = document.getElementById('gstAmount');
         const totalAmountEl = document.getElementById('totalAmount');
-        
+
         const baseAmountCard = document.getElementById('baseAmountCard');
         const gstAmountCard = document.getElementById('gstAmountCard');
         const totalAmountCard = document.getElementById('totalAmountCard');
@@ -93,7 +177,7 @@
             baseAmountCard.classList.remove('show');
             gstAmountCard.classList.remove('show');
             totalAmountCard.classList.remove('show');
-            
+
             const studentCount = parseInt(studentCountInput.value);
 
             // Input validation
@@ -114,11 +198,20 @@
             totalAmountEl.textContent = `₹ ${totalCost.toFixed(2)}`;
 
             resultsDiv.classList.remove('hidden');
-            
+
             // Staggered animation for result cards
             setTimeout(() => baseAmountCard.classList.add('show'), 100);
             setTimeout(() => gstAmountCard.classList.add('show'), 200);
             setTimeout(() => totalAmountCard.classList.add('show'), 300);
+
+            // Send to parent for history
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'calculation',
+                    calculator: 'Student Insurance Calculator',
+                    result: `Students: ${studentCount} → Base: ₹${baseCost.toFixed(2)}, GST: ₹${gst.toFixed(2)}, Total: ₹${totalCost.toFixed(2)}`
+                }, '*');
+            }
         };
 
         calculateBtn.addEventListener('click', calculateFee);
@@ -129,7 +222,19 @@
                 calculateFee();
             }
         });
+
+        // Listen for theme changes from parent
+        window.addEventListener('message', function (e) {
+            if (e.data && e.data.type === 'theme') {
+                if (e.data.theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            }
+        });
     </script>
 
 </body>
+
 </html>

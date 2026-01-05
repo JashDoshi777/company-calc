@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,48 +10,85 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --input-bg: #ffffff;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: #ffffff; /* ✅ WHITE BACKGROUND */
+            background: var(--bg-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             overflow: hidden;
+            transition: background 0.3s ease;
         }
 
         /* Card */
         .glass-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
 
         .glass-card:hover {
-            box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
             transform: translateY(-4px);
         }
 
         /* Input */
         .custom-input {
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            color: #111827;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             transition: all 0.3s ease;
         }
 
         .custom-input:focus {
             outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
 
         .custom-input::placeholder {
-            color: #9ca3af;
+            color: var(--text-secondary);
+        }
+
+        h1,
+        label {
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .text-gray-500,
+        .text-gray-600 {
+            color: var(--text-secondary) !important;
+        }
+
+        .border-t {
+            border-color: var(--border-color);
         }
 
         /* Remove number spinners */
@@ -59,6 +97,7 @@
             -webkit-appearance: none;
             margin: 0;
         }
+
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -95,10 +134,23 @@
 
         /* Shake */
         @keyframes shake {
-            0%,100% { transform: translateX(0); }
-            20%,60% { transform: translateX(-5px); }
-            40%,80% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-5px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(5px);
+            }
         }
+
         .shake {
             animation: shake 0.4s;
         }
@@ -107,79 +159,95 @@
 
 <body class="text-gray-900">
 
-<div class="glass-card w-11/12 max-w-md p-6 sm:p-8 rounded-2xl">
-    <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold">Student Calculator</h1>
-        <p class="text-sm text-gray-500 mt-2">
-            Calculate student counts and total premium with GST.
-        </p>
-    </div>
-
-    <div class="space-y-4">
-        <div>
-            <label class="text-sm font-medium text-gray-700">Enter Amount</label>
-            <input
-                type="number"
-                id="amountInput"
-                class="custom-input w-full p-3 mt-1 rounded-lg text-lg"
-                placeholder="e.g., 1500"
-            >
+    <div class="glass-card w-11/12 max-w-md p-6 sm:p-8 rounded-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold">Student Calculator</h1>
+            <p class="text-sm text-gray-500 mt-2">
+                Calculate student counts and total premium with GST.
+            </p>
         </div>
 
-        <button id="calculateBtn"
-                class="animated-button w-full text-white font-semibold py-3 rounded-lg text-lg">
-            Calculate
-        </button>
-    </div>
-
-    <div id="results" class="results-container mt-8">
-        <div class="border-t pt-6 space-y-4">
-            <div class="flex justify-between text-lg">
-                <span class="text-gray-600">Total Students:</span>
-                <span id="studentResult" class="font-bold text-2xl text-blue-600">0</span>
+        <div class="space-y-4">
+            <div>
+                <label class="text-sm font-medium text-gray-700">Enter Amount</label>
+                <input type="number" id="amountInput" class="custom-input w-full p-3 mt-1 rounded-lg text-lg"
+                    placeholder="e.g., 1500">
             </div>
-            <div class="flex justify-between text-lg">
-                <span class="text-gray-600">Total Premium (incl. GST):</span>
-                <span id="premiumResult" class="font-bold text-2xl text-green-600">₹0</span>
+
+            <button id="calculateBtn" class="animated-button w-full text-white font-semibold py-3 rounded-lg text-lg">
+                Calculate
+            </button>
+        </div>
+
+        <div id="results" class="results-container mt-8">
+            <div class="border-t pt-6 space-y-4">
+                <div class="flex justify-between text-lg">
+                    <span class="text-gray-600">Total Students:</span>
+                    <span id="studentResult" class="font-bold text-2xl text-blue-600">0</span>
+                </div>
+                <div class="flex justify-between text-lg">
+                    <span class="text-gray-600">Total Premium (incl. GST):</span>
+                    <span id="premiumResult" class="font-bold text-2xl text-green-600">₹0</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    const amountInput = document.getElementById('amountInput');
-    const calculateBtn = document.getElementById('calculateBtn');
-    const resultsContainer = document.getElementById('results');
-    const studentResult = document.getElementById('studentResult');
-    const premiumResult = document.getElementById('premiumResult');
+    <script>
+        const amountInput = document.getElementById('amountInput');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resultsContainer = document.getElementById('results');
+        const studentResult = document.getElementById('studentResult');
+        const premiumResult = document.getElementById('premiumResult');
 
-    function customRound(num) {
-        const floor = Math.floor(num);
-        return (num - floor) > 0.5 ? Math.ceil(num) : floor;
-    }
-
-    function performCalculation() {
-        amountInput.classList.remove('shake');
-        const amount = parseFloat(amountInput.value);
-
-        if (isNaN(amount) || amount <= 0) {
-            amountInput.classList.add('shake');
-            resultsContainer.classList.remove('show');
-            return;
+        function customRound(num) {
+            const floor = Math.floor(num);
+            return (num - floor) > 0.5 ? Math.ceil(num) : floor;
         }
 
-        const students = customRound(amount / 73.16);
-        const premium = customRound((students * 62) * 1.18);
+        function performCalculation() {
+            amountInput.classList.remove('shake');
+            const amount = parseFloat(amountInput.value);
 
-        studentResult.textContent = students;
-        premiumResult.textContent = `₹${premium.toLocaleString('en-IN')}`;
+            if (isNaN(amount) || amount <= 0) {
+                amountInput.classList.add('shake');
+                resultsContainer.classList.remove('show');
+                return;
+            }
 
-        resultsContainer.classList.add('show');
-    }
+            const students = customRound(amount / 73.16);
+            const premium = customRound((students * 62) * 1.18);
 
-    calculateBtn.addEventListener('click', performCalculation);
-    amountInput.addEventListener('keydown', e => e.key === 'Enter' && performCalculation());
-</script>
+            studentResult.textContent = students;
+            premiumResult.textContent = `₹${premium.toLocaleString('en-IN')}`;
+
+            resultsContainer.classList.add('show');
+
+            // Send to parent for history
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'calculation',
+                    calculator: 'Student Calculator',
+                    result: `Amount: ₹${amount.toLocaleString('en-IN')} → Students: ${students}, Premium: ₹${premium.toLocaleString('en-IN')}`
+                }, '*');
+            }
+        }
+
+        calculateBtn.addEventListener('click', performCalculation);
+        amountInput.addEventListener('keydown', e => e.key === 'Enter' && performCalculation());
+
+        // Listen for theme changes from parent
+        window.addEventListener('message', function (e) {
+            if (e.data && e.data.type === 'theme') {
+                if (e.data.theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            }
+        });
+    </script>
 
 </body>
+
 </html>
