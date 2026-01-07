@@ -108,7 +108,7 @@
       min-width: 280px;
       background: var(--bg-sidebar);
       color: white;
-      padding: 24px 18px;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
       box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
@@ -129,7 +129,7 @@
     /* Sidebar Header */
     .sidebar-header {
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
 
     .sidebar-header .header-actions {
@@ -144,15 +144,15 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 0 0 20px 0;
+      gap: 8px;
+      padding: 0 0 12px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 24px;
+      margin-bottom: 12px;
       width: 100%;
     }
 
     .logo-section img {
-      width: 72px;
+      width: 56px;
       height: auto;
       filter: brightness(0) invert(1);
     }
@@ -194,14 +194,14 @@
     /* Navigation */
     .nav-section {
       flex: 0 1 auto;
-      overflow-y: auto;
+      overflow: visible;
       margin-bottom: 0;
     }
 
     .nav-label {
-      font-size: 10px;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
+      letter-spacing: 1px;
       color: rgba(255, 255, 255, 0.4);
       margin-bottom: 4px;
       padding-left: 4px;
@@ -211,17 +211,17 @@
     .calc-btn-container {
       display: flex;
       align-items: stretch;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .nav-button {
       flex: 1;
-      padding: 12px 14px;
+      padding: 10px 12px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid transparent;
       color: rgba(255, 255, 255, 0.75);
       font-family: inherit;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       border-radius: 8px 0 0 8px;
@@ -229,7 +229,7 @@
       transition: all 0.25s ease;
       position: relative;
       overflow: hidden;
-      line-height: 1.4;
+      line-height: 1.3;
     }
 
     .nav-button::before {
@@ -262,14 +262,14 @@
 
     /* Star/Favorite Button */
     .star-btn {
-      width: 40px;
+      width: 36px;
       border: 1px solid transparent;
       border-left: none;
       background: rgba(255, 255, 255, 0.03);
       color: rgba(255, 255, 255, 0.3);
       border-radius: 0 8px 8px 0;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 12px;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
@@ -287,22 +287,22 @@
 
     /* External Links Section */
     .external-section {
-      margin-top: 20px;
-      padding-top: 20px;
+      margin-top: auto;
+      padding-top: 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .external-link {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
-      padding: 12px 14px;
-      margin-bottom: 8px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid transparent;
       color: rgba(255, 255, 255, 0.75);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       text-decoration: none;
       border-radius: 8px;
@@ -782,6 +782,410 @@
     .overlay.open {
       display: block;
     }
+
+    /* ========== MOBILE HAMBURGER MENU BUTTON ========== */
+    .mobile-menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent) 0%, #6366f1 100%);
+      color: white;
+      cursor: pointer;
+      border-radius: 12px;
+      font-size: 22px;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      flex-shrink: 0;
+    }
+
+    .mobile-menu-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .mobile-menu-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ========== MOBILE SIDEBAR OVERLAY ========== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+    }
+
+    /* ========== PREMIUM MOBILE RESPONSIVE STYLES ========== */
+    @media (max-width: 768px) {
+
+      /* Show hamburger button */
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      /* Show sidebar overlay */
+      .sidebar-overlay {
+        display: block;
+        pointer-events: none;
+      }
+
+      .sidebar-overlay.active {
+        pointer-events: auto;
+      }
+
+      /* Premium Sidebar Mobile */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        z-index: 100;
+        width: 300px;
+        min-width: 300px;
+        box-shadow: 8px 0 40px rgba(0, 0, 0, 0.3);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sidebar.mobile-open {
+        transform: translateX(0);
+      }
+
+      .sidebar.hidden {
+        transform: translateX(-100%);
+      }
+
+      /* Premium close button styling */
+      #closeSidebarBtn {
+        width: 36px !important;
+        height: 36px !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
+        font-size: 18px !important;
+        display: none;
+      }
+
+      /* Content wrapper full width */
+      .content-wrapper {
+        width: 100%;
+      }
+
+      /* ===== BEAUTIFUL MOBILE TOOLBAR ===== */
+      .toolbar {
+        padding: 12px 16px;
+        height: auto;
+        min-height: 64px;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      }
+
+      .toolbar-left {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .toolbar-title {
+        font-size: 15px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--text-primary);
+      }
+
+      .toolbar-right {
+        display: flex;
+        gap: 8px;
+      }
+
+      /* Mobile toolbar buttons - elegant pill style */
+      .toolbar-btn {
+        padding: 10px 14px;
+        font-size: 0;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        transition: all 0.25s ease;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .toolbar-btn:hover,
+      .toolbar-btn:active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .toolbar-btn span {
+        font-size: 18px;
+      }
+
+      /* Hide split view button on mobile */
+      #splitViewBtn {
+        display: none;
+      }
+
+      /* ===== BEAUTIFUL HISTORY PANEL ===== */
+      .history-panel {
+        width: 100%;
+        right: -100%;
+        max-width: 100vw;
+        border-radius: 24px 24px 0 0;
+        top: auto;
+        bottom: 0;
+        height: 75vh;
+        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.15);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1), bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .history-panel.open {
+        right: 0;
+      }
+
+      .history-panel .panel-header {
+        padding: 20px;
+        border-radius: 24px 24px 0 0;
+      }
+
+      .history-panel .panel-header::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+        margin: 0 auto 16px;
+      }
+
+      /* ===== BEAUTIFUL NOTES PANEL ===== */
+      .notes-panel {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        bottom: 12px;
+        border-radius: 20px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .notes-panel .notes-header {
+        border-radius: 20px 20px 0 0;
+      }
+
+      .notes-panel textarea {
+        border-radius: 12px;
+        font-size: 15px;
+      }
+
+      /* ===== SPLIT SELECTOR MOBILE ===== */
+      .split-selector {
+        width: calc(100% - 32px);
+        max-width: 100%;
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      .split-selector h3 {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+
+      .split-selector-row {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .split-selector select {
+        padding: 14px 16px;
+        font-size: 15px;
+        border-radius: 12px;
+      }
+
+      .split-selector-actions {
+        margin-top: 8px;
+      }
+
+      .split-selector-actions button {
+        padding: 14px 24px;
+        font-size: 15px;
+        border-radius: 12px;
+      }
+
+      /* Disable split view on mobile */
+      .content.split-mode .calc-frame {
+        width: 100%;
+      }
+
+      .content.split-mode .split-divider {
+        display: none;
+      }
+
+      /* Fullscreen button */
+      .fullscreen-btn-float {
+        display: none !important;
+      }
+
+      /* Hide fullscreen button entirely on mobile */
+      #fullscreenBtn {
+        display: none;
+      }
+    }
+
+    /* ========== EXTRA SMALL PHONES (< 400px) ========== */
+    @media (max-width: 400px) {
+      .toolbar {
+        padding: 10px 12px;
+        min-height: 56px;
+      }
+
+      .mobile-menu-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        border-radius: 10px;
+      }
+
+      .toolbar-title {
+        font-size: 13px;
+      }
+
+      .toolbar-btn {
+        min-width: 40px;
+        min-height: 40px;
+        padding: 8px;
+        border-radius: 10px;
+      }
+
+      .toolbar-btn span {
+        font-size: 16px;
+      }
+
+      /* Sidebar slightly narrower */
+      .sidebar {
+        width: 280px;
+        min-width: 280px;
+        padding: 20px 14px;
+      }
+
+      .logo-section img {
+        width: 56px;
+      }
+
+      .logo-section h2 {
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+
+      .nav-button {
+        font-size: 13px;
+        padding: 12px 14px;
+      }
+
+      .external-link {
+        font-size: 13px;
+        padding: 12px 14px;
+      }
+    }
+
+    /* ========== TOUCH-FRIENDLY & PREMIUM INTERACTIONS ========== */
+    @media (hover: none) and (pointer: coarse) {
+
+      /* Larger touch targets for accessibility */
+      .nav-button,
+      .external-link,
+      .toolbar-btn,
+      .icon-btn,
+      .star-btn {
+        min-height: 48px;
+      }
+
+      /* Smooth press animation */
+      .nav-button:active,
+      .external-link:active,
+      .toolbar-btn:active,
+      .icon-btn:active {
+        transform: scale(0.96);
+        transition: transform 0.1s ease;
+      }
+
+      /* Better spacing for touch */
+      .calc-btn-container {
+        margin-bottom: 12px;
+      }
+
+      .external-link {
+        margin-bottom: 12px;
+      }
+
+      /* Remove hover states on touch devices */
+      .nav-button:hover::before {
+        transform: scaleY(0);
+      }
+
+      .nav-button:active::before,
+      .nav-button.active::before {
+        transform: scaleY(1);
+      }
+    }
+
+    /* ========== SMOOTH SCROLLING ========== */
+    @media (max-width: 768px) {
+      .nav-section {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .nav-section::-webkit-scrollbar {
+        display: none;
+      }
+
+      .history-list {
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    /* ========== SAFE AREA INSETS FOR NOTCHED PHONES ========== */
+    @supports (padding: max(0px)) {
+      @media (max-width: 768px) {
+        .toolbar {
+          padding-left: max(16px, env(safe-area-inset-left));
+          padding-right: max(16px, env(safe-area-inset-right));
+        }
+
+        .sidebar {
+          padding-left: max(18px, env(safe-area-inset-left));
+        }
+
+        .notes-panel {
+          left: max(12px, env(safe-area-inset-left));
+          right: max(12px, env(safe-area-inset-right));
+          bottom: max(12px, env(safe-area-inset-bottom));
+        }
+      }
+    }
   </style>
 </head>
 
@@ -791,6 +1195,9 @@
   <div class="splash-screen" id="splashScreen">
     <img src="logo.png" alt="IRIBL Logo" class="splash-logo">
   </div>
+
+  <!-- Mobile Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <!-- Main Application -->
   <div class="app-container" id="appContainer">
@@ -803,6 +1210,7 @@
           <h2>IRIBL TOOLS</h2>
         </div>
         <div class="header-actions">
+          <button class="icon-btn" id="closeSidebarBtn" title="Close Menu" style="display: none;">✕</button>
           <button class="icon-btn" id="themeToggle" title="Toggle Theme">
             <span id="themeIcon">☀</span>
           </button>
@@ -842,6 +1250,7 @@
       <!-- Toolbar -->
       <div class="toolbar">
         <div class="toolbar-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" title="Menu">☰</button>
           <span class="toolbar-title" id="currentCalcName">Fire Calculator</span>
         </div>
         <div class="toolbar-right">
@@ -943,6 +1352,47 @@
     let theme = localStorage.getItem('iribl_theme') || 'light';
     let isFullscreen = false;
     let isSplitMode = false;
+    let isMobileMenuOpen = false;
+
+    // ========== MOBILE MENU ==========
+    function toggleMobileMenu() {
+      isMobileMenuOpen = !isMobileMenuOpen;
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const closeBtn = document.getElementById('closeSidebarBtn');
+
+      if (isMobileMenuOpen) {
+        sidebar.classList.add('mobile-open');
+        overlay.classList.add('active');
+        closeBtn.style.display = 'flex';
+      } else {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+        closeBtn.style.display = 'none';
+      }
+    }
+
+    function closeMobileMenu() {
+      if (isMobileMenuOpen) {
+        isMobileMenuOpen = false;
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const closeBtn = document.getElementById('closeSidebarBtn');
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+        closeBtn.style.display = 'none';
+      }
+    }
+
+    // Handle window resize - hide close button on desktop
+    function handleResize() {
+      const closeBtn = document.getElementById('closeSidebarBtn');
+      if (window.innerWidth > 768) {
+        closeBtn.style.display = 'none';
+        closeMobileMenu();
+      }
+    }
+
 
     // ========== INITIALIZATION ==========
     document.addEventListener('DOMContentLoaded', function () {
@@ -971,6 +1421,12 @@
           app.classList.add('visible');
         }, 300);
       }, 900);
+
+      // Mobile menu event listeners
+      document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+      document.getElementById('closeSidebarBtn').addEventListener('click', closeMobileMenu);
+      document.getElementById('sidebarOverlay').addEventListener('click', closeMobileMenu);
+      window.addEventListener('resize', handleResize);
     });
 
     // ========== RENDER CALCULATOR LIST ==========
@@ -999,6 +1455,9 @@
     // ========== CALCULATOR SWITCHING ==========
     function showCalc(id, btn) {
       if (isSplitMode) return;
+
+      // Close mobile menu when selecting a calculator
+      closeMobileMenu();
 
       currentCalc = id;
       const calc = calculators.find(c => c.id === id);

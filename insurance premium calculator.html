@@ -100,6 +100,165 @@
       color: var(--text-primary) !important;
       border-color: var(--border-color) !important;
     }
+
+    /* ========== PREMIUM MOBILE RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+        align-items: flex-start;
+      }
+
+      main {
+        gap: 20px !important;
+      }
+
+      /* Beautiful card styling on mobile */
+      .bg-white {
+        border-radius: 20px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+      }
+
+      .p-6 {
+        padding: 20px !important;
+      }
+
+      /* Elegant headings */
+      .text-2xl {
+        font-size: 1.35rem !important;
+        font-weight: 700 !important;
+        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .text-lg {
+        font-size: 1rem !important;
+      }
+
+      /* Form elements */
+      .grid {
+        gap: 16px !important;
+      }
+
+      select,
+      input[type="number"] {
+        padding: 14px 16px !important;
+        font-size: 16px !important;
+        /* Prevents iOS zoom */
+        border-radius: 12px !important;
+        border: 2px solid var(--border-color) !important;
+        transition: all 0.25s ease !important;
+      }
+
+      select:focus,
+      input[type="number"]:focus {
+        border-color: var(--accent) !important;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
+      }
+
+      /* Beautiful calculate button */
+      #calculateBtn {
+        padding: 18px 28px !important;
+        font-size: 1rem !important;
+        border-radius: 16px !important;
+        background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+        box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transform: none !important;
+      }
+
+      #calculateBtn:active {
+        transform: scale(0.97) !important;
+        box-shadow: 0 4px 16px rgba(79, 70, 229, 0.25) !important;
+      }
+
+      /* Checkbox styling */
+      .flex.items-center.p-3 {
+        border-radius: 14px !important;
+        padding: 14px 16px !important;
+      }
+
+      /* Results container */
+      #results-container {
+        position: relative !important;
+        top: 0 !important;
+      }
+
+      .gap-8 {
+        gap: 20px !important;
+      }
+
+      .gap-6 {
+        gap: 16px !important;
+      }
+
+      .rounded-2xl {
+        border-radius: 20px !important;
+      }
+
+      /* Labels */
+      .text-sm.font-medium {
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 8px !important;
+      }
+    }
+
+    /* ========== EXTRA SMALL PHONES ========== */
+    @media (max-width: 380px) {
+      body {
+        padding: 8px;
+      }
+
+      .p-6 {
+        padding: 16px !important;
+      }
+
+      .text-2xl {
+        font-size: 1.2rem !important;
+      }
+
+      #calculateBtn {
+        padding: 16px 24px !important;
+        font-size: 0.95rem !important;
+      }
+    }
+
+    /* ========== TOUCH-FRIENDLY IMPROVEMENTS ========== */
+    @media (hover: none) and (pointer: coarse) {
+
+      select,
+      input,
+      button {
+        min-height: 52px !important;
+      }
+
+      input[type="checkbox"] {
+        width: 22px !important;
+        height: 22px !important;
+      }
+
+      /* Smooth press animations */
+      button:active {
+        transform: scale(0.97) !important;
+      }
+
+      select:active,
+      input:active {
+        transform: scale(0.99) !important;
+      }
+    }
+
+    /* ========== iOS ZOOM PREVENTION ========== */
+    @media screen and (max-width: 768px) {
+
+      select,
+      input[type="number"],
+      input[type="text"] {
+        font-size: 16px !important;
+      }
+    }
   </style>
 </head>
 
