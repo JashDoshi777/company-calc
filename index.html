@@ -869,79 +869,81 @@
         transform: translateX(-100%);
       }
 
-      /* ===== COMPACT MOBILE SIDEBAR ===== */
+      /* ===== MOBILE SIDEBAR LAYOUT ===== */
       .sidebar {
-        padding: 12px 12px !important;
+        padding: 16px 14px !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Hide scrollbar but keep scroll functionality */
+      .sidebar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .sidebar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
 
       .sidebar-header {
-        margin-bottom: 6px !important;
+        margin-bottom: 12px !important;
       }
 
       .logo-section {
-        gap: 4px !important;
-        padding: 0 0 8px 0 !important;
-        margin-bottom: 8px !important;
+        gap: 6px !important;
+        padding: 0 0 12px 0 !important;
+        margin-bottom: 12px !important;
       }
 
       .logo-section img {
-        width: 40px !important;
+        width: 48px !important;
       }
 
       .logo-section h2 {
-        font-size: 12px !important;
-        letter-spacing: 1px !important;
+        font-size: 13px !important;
       }
 
       .nav-label {
-        font-size: 8px !important;
-        margin-bottom: 2px !important;
-        letter-spacing: 0.8px !important;
+        font-size: 9px !important;
+        margin-bottom: 6px !important;
       }
 
       .calc-btn-container {
-        margin-bottom: 4px !important;
+        margin-bottom: 6px !important;
       }
 
       .nav-button {
-        padding: 8px 10px !important;
-        font-size: 11px !important;
-        line-height: 1.2 !important;
+        padding: 12px 14px !important;
+        font-size: 13px !important;
+        min-height: 44px !important;
       }
 
       .star-btn {
-        width: 32px !important;
-        font-size: 10px !important;
+        width: 44px !important;
+        min-height: 44px !important;
+        font-size: 14px !important;
       }
 
       .external-section {
-        padding-top: 8px !important;
-        margin-top: auto !important;
-      }
-
-      .external-section .nav-label {
-        margin-bottom: 4px !important;
+        padding-top: 12px !important;
+        margin-top: 16px !important;
       }
 
       .external-link {
-        padding: 8px 10px !important;
-        margin-bottom: 4px !important;
-        font-size: 11px !important;
-        gap: 6px !important;
-      }
-
-      .link-indicator {
-        width: 6px !important;
-        height: 6px !important;
+        padding: 12px 14px !important;
+        margin-bottom: 6px !important;
+        font-size: 13px !important;
+        min-height: 44px !important;
       }
 
       /* Premium close button styling */
       #closeSidebarBtn {
-        width: 32px !important;
-        height: 32px !important;
+        width: 36px !important;
+        height: 36px !important;
         background: rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        font-size: 16px !important;
+        border-radius: 10px !important;
+        font-size: 18px !important;
         display: none;
       }
 
