@@ -3978,7 +3978,7 @@
                     <div class="flex justify-between items-center border-t border-slate-100 pt-3">
                         <div>
                             <p class="font-semibold text-slate-700">STFI Premium</p>
-                            <p class="text-sm text-slate-500">Rate Used: ${premiums.stfiRateUsed.toFixed(2)}‰</p>
+                            <p class="text-sm text-slate-500">Rate Used: ${premiums.stfiRateUsed.toFixed(2)}%</p>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-lg text-slate-800">₹${premiums.stfiPremium.toFixed(2)}</p>
@@ -3991,7 +3991,7 @@
                     <div class="flex justify-between items-center border-t border-slate-100 pt-3">
                         <div>
                             <p class="font-semibold text-slate-700">Earthquake (${selectedEarthquakeZone})</p>
-                            <p class="text-sm text-slate-500">Rate Used: ${premiums.earthquakeRateUsed.toFixed(2)}‰</p>
+                            <p class="text-sm text-slate-500">Rate Used: ${premiums.earthquakeRateUsed.toFixed(2)}%</p>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-lg text-slate-800">₹${premiums.earthquakePremium.toFixed(2)}</p>
@@ -4004,7 +4004,7 @@
                     <div class="flex justify-between items-center border-t border-slate-100 pt-3">
                         <div>
                             <p class="font-semibold text-slate-700">Terrorism (${selectedTerrorismCategory})</p>
-                            <p class="text-sm text-slate-500">Rate Used: ${premiums.terrorismRateUsed.toFixed(2)}‰</p>
+                            <p class="text-sm text-slate-500">Rate Used: ${premiums.terrorismRateUsed.toFixed(2)}%</p>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-lg text-slate-800">₹${premiums.terrorismPremium.toFixed(2)}</p>
@@ -4041,13 +4041,13 @@
       earthquakeSelect.innerHTML = '<option value="NA">No Coverage</option>';
       Object.keys(generalPerilRates.Earthquake).filter(k => k !== 'NA').forEach(zone => {
         const rate = generalPerilRates.Earthquake[zone];
-        earthquakeSelect.innerHTML += `<option value="${zone}">${zone} (Rate: ${rate.toFixed(2)}‰)</option>`;
+        earthquakeSelect.innerHTML += `<option value="${zone}">${zone} (Rate: ${rate.toFixed(2)}%)</option>`;
       });
 
       terrorismSelect.innerHTML = '<option value="NA">No Coverage</option>';
       Object.keys(generalPerilRates.Terrorism).filter(k => k !== 'NA').forEach(cat => {
         const rate = generalPerilRates.Terrorism[cat];
-        terrorismSelect.innerHTML += `<option value="${cat}">${cat} (Rate: ${rate.toFixed(2)}‰)</option>`;
+        terrorismSelect.innerHTML += `<option value="${cat}">${cat} (Rate: ${rate.toFixed(2)}%)</option>`;
       });
 
       // Set initial control states
